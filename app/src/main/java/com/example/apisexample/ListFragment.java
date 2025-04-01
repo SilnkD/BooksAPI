@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.navigation.Navigation;
 import java.util.ArrayList;
 import java.util.List;
-
 public class ListFragment extends Fragment implements Adapter.OnItemClickListener {
     private BookViewModel viewModel;
     private Adapter adapter;
@@ -58,7 +57,7 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
         Bundle args = new Bundle();
         args.putString("title", book.getTitle());
         args.putString("author", book.getContent());
-        args.putString("workId", String.valueOf(book.getId()));
+        args.putString("workId", book.getId());
 
         Navigation.findNavController(requireView())
                 .navigate(R.id.action_listFragment_to_detailsFragment, args);

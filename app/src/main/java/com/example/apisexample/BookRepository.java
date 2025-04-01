@@ -14,7 +14,7 @@ public class BookRepository {
     }
 
     public Observable<List<Item>> getBooks(String query) {
-        return apiService.searchBooks(query, 222)
+        return apiService.searchBooks(query, 20)
                 .map(response -> convertToItems(response.getItems()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -24,11 +24,13 @@ public class BookRepository {
         List<Item> items = new ArrayList<>();
         for (BookItem bookItem : bookItems) {
             VolumeInfo volumeInfo = bookItem.getVolumeInfo();
+            if (volumeInfo == null) continue;
+
             Item item = new Item();
-            item.setTitle(volumeInfo.getTitle());
+            item.setTitle(volumeInfo.getTitle() != null ? volumeInfo.getTitle() : "No title");
             item.setContent(formatAuthors(volumeInfo.getAuthors()));
 
-            if (volumeInfo.getImageLinks() != null) {
+            if (volumeInfo.getImageLinks() != null && volumeInfo.getImageLinks().getThumbnail() != null) {
                 item.setImage(volumeInfo.getImageLinks().getThumbnail());
             }
 
