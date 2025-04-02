@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class BookRepository {
     private final BookApiService apiService;
 
@@ -36,13 +37,21 @@ public class BookRepository {
             item.setTitle(volumeInfo.getTitle() != null ? volumeInfo.getTitle() : "No title");
             item.setContent(formatAuthors(volumeInfo.getAuthors()));
 
+            item.setDescription(volumeInfo.getDescription() != null ? volumeInfo.getDescription() : "No description available");
+
+            if (volumeInfo.getCategories() != null) {
+                item.setCategories(volumeInfo.getCategories());
+            } else {
+                item.setCategories(new ArrayList<>());
+            }
+
+            if (volumeInfo.getIndustryIdentifiers() != null && !volumeInfo.getIndustryIdentifiers().isEmpty()) {
+                item.setIsbn(volumeInfo.getIndustryIdentifiers().get(0).getIdentifier());  // Если есть хотя бы один ISBN
+            }
+
             if (volumeInfo.getImageLinks() != null && volumeInfo.getImageLinks().getThumbnail() != null) {
                 String thumbnailUrl = volumeInfo.getImageLinks().getThumbnail();
-                if (thumbnailUrl != null) {
-                    thumbnailUrl = thumbnailUrl.replace("http://", "https://");
-                    item.setImage(thumbnailUrl);
-                }
-                item.setImage(volumeInfo.getImageLinks().getThumbnail());
+                item.setImage(thumbnailUrl.replace("http://", "https://"));
             }
 
             items.add(item);

@@ -19,6 +19,7 @@ import com.example.apisexample.viewmodel.BookViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class ListFragment extends Fragment implements Adapter.OnItemClickListener {
     private BookViewModel viewModel;
     private Adapter adapter;
@@ -27,7 +28,7 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(BookViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);  // Используем активность для обмена данными
     }
 
     @Override
@@ -60,16 +61,10 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
 
     @Override
     public void onItemClick(Item book) {
-        Bundle args = new Bundle();
-        args.putString("title", book.getTitle());
-        //args.putString("author", book.getContent());
-        //args.putString("description", book.getDescription());
-        //args.putString("imageUrl", book.getImage());
-        //args.putString("categories", String.valueOf(book.getCategories()));
-        //args.putString("isbn", book.getIsbn());
+        // Передаем выбранную книгу в ViewModel
+        viewModel.selectBook(book);
 
         Navigation.findNavController(requireView())
-                .navigate(R.id.action_listFragment_to_detailsFragment, args);
+                .navigate(R.id.action_listFragment_to_detailsFragment);
     }
-
 }

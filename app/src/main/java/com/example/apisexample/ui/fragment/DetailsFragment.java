@@ -7,22 +7,32 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.apisexample.R;
+import com.example.apisexample.data.model.Item;
+import com.example.apisexample.viewmodel.BookViewModel;
 
 public class DetailsFragment extends Fragment {
 
     private TextView textTitle, textAuthors, textMeta, textDescription, textCategories, textISBN;
     private ImageView imageViewCover;
     private Button buttonPreview, buttonInfo;
+    private BookViewModel viewModel;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);  // Получаем Shared ViewModel
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        // Initialize UI components
         textTitle = view.findViewById(R.id.textTitle);
         textAuthors = view.findViewById(R.id.textAuthors);
         textMeta = view.findViewById(R.id.textMeta);
@@ -33,32 +43,25 @@ public class DetailsFragment extends Fragment {
         buttonPreview = view.findViewById(R.id.buttonPreview);
         buttonInfo = view.findViewById(R.id.buttonInfo);
 
-        // Retrieve data from Bundle
-        Bundle args = getArguments();
-        if (args != null) {
-            String title = args.getString("title");
-            String author = args.getString("author");
-            String description = args.getString("description");
-            String image = args.getString("image");
-            String categories = args.getString("categories");
-            String isbn = args.getString("isbn");
-
-            // Set data to views
-            textTitle.setText(title);
-            textAuthors.setText(author);
-            textDescription.setText(description);
-            textCategories.setText(categories);
-            textISBN.setText(isbn);
-
-            Glide.with(this)
-                    .load(image)
-                    .placeholder(R.drawable.image)
-                    .into(imageViewCover);
-
-        }
-
-        // You can handle the Preview and More Info buttons as needed
+        viewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
+            if (book != null) {
+                updateUI(book);
+            }
+        });
 
         return view;
+    }
+
+    private void updateUI(Item book) {
+        textTitle.setText(book.getTitle());
+        textAuthors.setText(book.getContent());
+        textDescription.setText(book.getDescription());
+        textCategories.setText(String.format("Categories: %s", book.getCategories()));
+        textISBN.setText(String.format("ISBN: %s", book.getIsbn()));
+
+        Glide.with(this)
+                .load(book.getImage())
+                .placeholder(R.drawable.image)
+                .into(imageViewCover);
     }
 }

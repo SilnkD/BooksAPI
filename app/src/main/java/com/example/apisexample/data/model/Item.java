@@ -38,7 +38,7 @@ public class Item {
     }
 
     public String getImage() {
-        return image.replace("http://", "https://");
+        return image != null ? image.replace("http://", "https://") : null;
     }
 
     public void setImage(String image) {
@@ -61,8 +61,8 @@ public class Item {
         this.description = description;
     }
 
-    public Object getCategories() {
-        return categories != null ? categories : String.valueOf(new ArrayList<>());
+    public List<String> getCategories() {
+        return categories != null ? categories : new ArrayList<>();
     }
 
     public void setCategories(List<String> categories) {
