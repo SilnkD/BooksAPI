@@ -1,4 +1,4 @@
-package com.example.apisexample;
+package com.example.apisexample.data.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

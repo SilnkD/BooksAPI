@@ -1,4 +1,10 @@
-package com.example.apisexample;
+package com.example.apisexample.data.repository;
+
+import com.example.apisexample.data.network.BookApiService;
+import com.example.apisexample.data.model.BookItem;
+import com.example.apisexample.data.network.RetrofitClient;
+import com.example.apisexample.data.model.Item;
+import com.example.apisexample.data.model.VolumeInfo;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -31,6 +37,11 @@ public class BookRepository {
             item.setContent(formatAuthors(volumeInfo.getAuthors()));
 
             if (volumeInfo.getImageLinks() != null && volumeInfo.getImageLinks().getThumbnail() != null) {
+                String thumbnailUrl = volumeInfo.getImageLinks().getThumbnail();
+                if (thumbnailUrl != null) {
+                    thumbnailUrl = thumbnailUrl.replace("http://", "https://");
+                    item.setImage(thumbnailUrl);
+                }
                 item.setImage(volumeInfo.getImageLinks().getThumbnail());
             }
 

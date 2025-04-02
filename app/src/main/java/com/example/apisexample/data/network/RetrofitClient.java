@@ -1,4 +1,4 @@
-package com.example.apisexample;
+package com.example.apisexample.data.network;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;

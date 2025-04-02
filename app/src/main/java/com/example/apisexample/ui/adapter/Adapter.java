@@ -1,4 +1,4 @@
-package com.example.apisexample;
+package com.example.apisexample.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import com.bumptech.glide.Glide;
+import com.example.apisexample.data.model.Item;
+import com.example.apisexample.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -57,8 +60,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder> implem
         if (item.getImage() != null && !item.getImage().isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(item.getImage())
-                    .placeholder(R.drawable.image)
+                    .placeholder(R.drawable.ic_star_filled)
                     .into(holder.itemImageView);
+        } else {
+            holder.itemImageView.setImageResource(R.drawable.image);
         }
 
         holder.itemView.setOnClickListener(v -> itemClickListener.onItemClick(item));
@@ -111,12 +116,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder> implem
                 notifyDataSetChanged();
             }
         };
-    }
-
-    public void sortByTitle(boolean ascending) {
-        Collections.sort(filteredItems, ascending ?
-                Comparator.comparing(Item::getTitle) :
-                (i1, i2) -> i2.getTitle().compareToIgnoreCase(i1.getTitle()));
-        notifyDataSetChanged();
     }
 }

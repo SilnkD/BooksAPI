@@ -1,4 +1,6 @@
-package com.example.apisexample;
+package com.example.apisexample.data.network;
+
+import com.example.apisexample.data.model.BookResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;

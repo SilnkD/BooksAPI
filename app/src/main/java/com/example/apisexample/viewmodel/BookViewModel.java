@@ -1,11 +1,13 @@
-package com.example.apisexample;
+package com.example.apisexample.viewmodel;
 
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.Collections;
+import com.example.apisexample.data.repository.BookRepository;
+import com.example.apisexample.data.model.Item;
+
 import java.util.List;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 

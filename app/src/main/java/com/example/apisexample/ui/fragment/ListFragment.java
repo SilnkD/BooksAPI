@@ -1,4 +1,4 @@
-package com.example.apisexample;
+package com.example.apisexample.ui.fragment;
 
 import androidx.fragment.app.Fragment;
 
@@ -11,6 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.navigation.Navigation;
+
+import com.example.apisexample.R;
+import com.example.apisexample.ui.adapter.Adapter;
+import com.example.apisexample.data.model.Item;
+import com.example.apisexample.viewmodel.BookViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 public class ListFragment extends Fragment implements Adapter.OnItemClickListener {
@@ -56,10 +62,14 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
     public void onItemClick(Item book) {
         Bundle args = new Bundle();
         args.putString("title", book.getTitle());
-        args.putString("author", book.getContent());
-        args.putString("workId", book.getId());
+        //args.putString("author", book.getContent());
+        //args.putString("description", book.getDescription());
+        //args.putString("imageUrl", book.getImage());
+        //args.putString("categories", String.valueOf(book.getCategories()));
+        //args.putString("isbn", book.getIsbn());
 
         Navigation.findNavController(requireView())
                 .navigate(R.id.action_listFragment_to_detailsFragment, args);
     }
+
 }
