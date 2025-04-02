@@ -1,10 +1,10 @@
 package com.example.apisexample.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,15 +18,14 @@ import com.example.apisexample.viewmodel.BookViewModel;
 
 public class DetailsFragment extends Fragment {
 
-    private TextView textTitle, textAuthors, textMeta, textDescription, textCategories, textISBN;
+    private TextView textTitle, textAuthors, textPublisher, textPublishedDate, textDescription, textCategories, textISBN, textPageCount;
     private ImageView imageViewCover;
-    private Button buttonPreview, buttonInfo;
     private BookViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);  // Получаем Shared ViewModel
+        viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
     }
 
     @Override
@@ -35,29 +34,36 @@ public class DetailsFragment extends Fragment {
 
         textTitle = view.findViewById(R.id.textTitle);
         textAuthors = view.findViewById(R.id.textAuthors);
-        textMeta = view.findViewById(R.id.textMeta);
+        textPublisher = view.findViewById(R.id.textPublisher);
+        textPublishedDate = view.findViewById(R.id.textPublishedDate);
         textDescription = view.findViewById(R.id.textDescription);
         textCategories = view.findViewById(R.id.textCategories);
         textISBN = view.findViewById(R.id.textISBN);
+        textPageCount = view.findViewById(R.id.textPageCount);
         imageViewCover = view.findViewById(R.id.imageViewCover);
-        buttonPreview = view.findViewById(R.id.buttonPreview);
-        buttonInfo = view.findViewById(R.id.buttonInfo);
 
         viewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
                 updateUI(book);
             }
         });
-
         return view;
     }
 
+    @SuppressLint("DefaultLocale")
     private void updateUI(Item book) {
         textTitle.setText(book.getTitle());
-        textAuthors.setText(book.getContent());
+
+        String authors = String.join(", ", book.getContent());
+        textAuthors.setText(authors);
+
+        textPublisher.setText(String.format("Publisher: %s", book.getPublisher()));
+        textPublishedDate.setText(String.format("Published Date: %s", book.getPublishedDate()));
         textDescription.setText(book.getDescription());
-        textCategories.setText(String.format("Categories: %s", book.getCategories()));
+        textCategories.setText(String.format("Categories: %s", String.join(", ", book.getCategories())));
         textISBN.setText(String.format("ISBN: %s", book.getIsbn()));
+        textPageCount.setText(String.format("Page Count: %d", book.getPageCount()));
+
 
         Glide.with(this)
                 .load(book.getImage())

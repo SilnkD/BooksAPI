@@ -18,13 +18,20 @@ public class VolumeInfo {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("publisher")
+    private String publisher;
+
+    @SerializedName("publishedDate")
+    private String publishedDate;
+
+    @SerializedName("pageCount")
+    private int pageCount;
+
     @SerializedName("categories")
     private List<String> categories;
 
     @SerializedName("industryIdentifiers")
     private List<IndustryIdentifier> industryIdentifiers;
-
-    // Геттеры для всех полей
 
     public String getTitle() {
         return title != null ? title : "No Title";
@@ -40,6 +47,18 @@ public class VolumeInfo {
 
     public String getDescription() {
         return description != null ? description : "No description available";
+    }
+
+    public String getPublisher() {
+        return publisher != null ? publisher : "Publisher not available";
+    }
+
+    public String getPublishedDate() {
+        return publishedDate != null ? publishedDate : "Published date not available";
+    }
+
+    public int getPageCount() {
+        return pageCount;
     }
 
     public List<String> getCategories() {

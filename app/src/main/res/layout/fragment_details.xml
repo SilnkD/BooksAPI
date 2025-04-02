@@ -44,13 +44,24 @@
             app:layout_constraintTop_toBottomOf="@id/textTitle" />
 
         <TextView
-            android:id="@+id/textMeta"
+            android:id="@+id/textPublisher"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textAuthors" />
+
+        <TextView
+            android:id="@+id/textPublishedDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textPublisher" />
 
         <TextView
             android:id="@+id/textDescription"
@@ -60,7 +71,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textMeta" />
+            app:layout_constraintTop_toBottomOf="@id/textPublishedDate" />
 
         <TextView
             android:id="@+id/textCategories"
@@ -81,28 +92,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textCategories" />
 
-        <LinearLayout
-            android:id="@+id/layoutLinks"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textPageCount"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/textISBN">
-
-            <Button
-                android:id="@+id/buttonPreview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/preview"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
-                android:id="@+id/buttonInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_info"/>
-        </LinearLayout>
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textISBN" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

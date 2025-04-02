@@ -36,14 +36,13 @@ public class BookRepository {
             Item item = new Item();
             item.setTitle(volumeInfo.getTitle() != null ? volumeInfo.getTitle() : "No title");
             item.setContent(formatAuthors(volumeInfo.getAuthors()));
+            item.setPublisher(volumeInfo.getPublisher());
+            item.setPublishedDate(volumeInfo.getPublishedDate());
+            item.setPageCount(volumeInfo.getPageCount());
 
             item.setDescription(volumeInfo.getDescription() != null ? volumeInfo.getDescription() : "No description available");
 
-            if (volumeInfo.getCategories() != null) {
-                item.setCategories(volumeInfo.getCategories());
-            } else {
-                item.setCategories(new ArrayList<>());
-            }
+            item.setCategories(volumeInfo.getCategories());
 
             if (volumeInfo.getIndustryIdentifiers() != null && !volumeInfo.getIndustryIdentifiers().isEmpty()) {
                 item.setIsbn(volumeInfo.getIndustryIdentifiers().get(0).getIdentifier());  // Если есть хотя бы один ISBN

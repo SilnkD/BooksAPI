@@ -12,6 +12,9 @@ public class Item {
     private String description;
     private List<String> categories;
     private String isbn;
+    private String publisher;
+    private String publishedDate;
+    private int pageCount;
 
     public String getId() {
         return id;
@@ -38,7 +41,7 @@ public class Item {
     }
 
     public String getImage() {
-        return image != null ? image.replace("http://", "https://") : null;
+        return image.replace("http://", "https://");
     }
 
     public void setImage(String image) {
@@ -75,5 +78,29 @@ public class Item {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public String getPublisher() {
+        return publisher != null ? publisher : "Publisher not available";
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getPublishedDate() {
+        return publishedDate != null ? publishedDate : "Published date not available";
+    }
+
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
     }
 }
