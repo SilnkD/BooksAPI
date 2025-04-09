@@ -1,31 +1,38 @@
 package com.example.apisexample.data.repository;
 
-import com.example.apisexample.data.network.BookApiService;
-import com.example.apisexample.data.model.BookItem;
-import com.example.apisexample.data.network.RetrofitClient;
-import com.example.apisexample.data.model.Item;
-import com.example.apisexample.data.model.VolumeInfo;
+import android.app.Application;
 
+import com.example.apisexample.data.remote.BookApiService;
+import com.example.apisexample.model.BookItem;
+import com.example.apisexample.data.remote.RetrofitClient;
+import com.example.apisexample.model.Item;
+import com.example.apisexample.model.VolumeInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BookRepository {
     private final BookApiService apiService;
 
-    public BookRepository() {
+    public BookRepository(Application application) {
         apiService = RetrofitClient.getClient().create(BookApiService.class);
     }
 
     public Observable<List<Item>> getBooks(String query) {
         return apiService.searchBooks(query, 20)
-                .map(response -> convertToItems(response.getItems()))
+                .map(response -> {
+                    if (response == null || response.getItems() == null) {
+                        return new ArrayList<Item>();
+                    }
+                    return convertToItems(response.getItems());
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
 
     private List<Item> convertToItems(List<BookItem> bookItems) {
         List<Item> items = new ArrayList<>();
@@ -39,7 +46,7 @@ public class BookRepository {
             item.setPublisher(volumeInfo.getPublisher());
             item.setPublishedDate(volumeInfo.getPublishedDate());
             item.setPageCount(volumeInfo.getPageCount());
-            item.setDescription(volumeInfo.getDescription() != null ? volumeInfo.getDescription() : "No description available");
+            item.setDescription(volumeInfo.getDescription() != null ? volumeInfo.getDescription() : "No description");
             item.setCategories(volumeInfo.getCategories());
 
             if (volumeInfo.getIndustryIdentifiers() != null && !volumeInfo.getIndustryIdentifiers().isEmpty()) {
@@ -47,8 +54,7 @@ public class BookRepository {
             }
 
             if (volumeInfo.getImageLinks() != null && volumeInfo.getImageLinks().getThumbnail() != null) {
-                String thumbnailUrl = volumeInfo.getImageLinks().getThumbnail();
-                item.setImage(thumbnailUrl.replace("http://", "https://"));
+                item.setImage(volumeInfo.getImageLinks().getThumbnail().replace("http://", "https://"));
             }
 
             items.add(item);

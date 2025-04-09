@@ -1,10 +1,9 @@
-package com.example.apisexample.data.model;
+package com.example.apisexample.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
-    private String id;
     private String title;
     private String content;
     private String image;
@@ -15,14 +14,6 @@ public class Item {
     private String publisher;
     private String publishedDate;
     private int pageCount;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

@@ -1,4 +1,4 @@
-package com.example.apisexample.ui.fragment;
+package com.example.apisexample.ui.booklist;
 
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
@@ -10,10 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.navigation.Navigation;
+import android.widget.ImageButton;
+import android.util.Log;
 
 import com.example.apisexample.R;
-import com.example.apisexample.ui.adapter.Adapter;
-import com.example.apisexample.data.model.Item;
+import com.example.apisexample.model.Item;
 import com.example.apisexample.viewmodel.BookViewModel;
 import com.example.apisexample.data.repository.BookRepository;
 
@@ -28,9 +29,8 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BookRepository repository = new BookRepository();
-        BookViewModel.Factory factory = new BookViewModel.Factory(repository);
-        viewModel = new ViewModelProvider(requireActivity(), factory).get(BookViewModel.class);
+        BookViewModel.Factory factory = new BookViewModel.Factory(requireActivity().getApplication());
+        viewModel = new ViewModelProvider(this, factory).get(BookViewModel.class); // Изменено: используем фабрику
     }
 
     @Override
@@ -42,22 +42,28 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        setupSearch();
+        setupFavoritesButton(view);
         observeViewModel();
+        viewModel.searchBooks("best sellers");
         return view;
     }
 
-    private void setupSearch() {
-        viewModel.searchBooks("best sellers");
+    private void setupFavoritesButton(View view) {
+        ImageButton buttonFavorite = view.findViewById(R.id.buttonFavorite);
+        buttonFavorite.setOnClickListener(v -> {
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_listFragment_to_favoriteFragment);
+        });
     }
 
     private void observeViewModel() {
         viewModel.getBooks().observe(getViewLifecycleOwner(), books -> {
-            items.clear();
+            Log.d("ListFragment", "Получено книг: " + (books != null ? books.size() : 0));
             if (books != null) {
+                items.clear();
                 items.addAll(books);
+                adapter.updateItems(books);
             }
-            adapter.updateItems(items);
         });
     }
 

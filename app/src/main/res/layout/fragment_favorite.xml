@@ -15,7 +15,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/add_to_favorites"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_star_outline"
+        android:src="@drawable/ic_star_filled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/colorPrimary"
@@ -30,17 +30,6 @@
         app:layout_constraintRight_toLeftOf="@id/buttonFavorite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        tools:listitem="@layout/item" />
 
     <TextView
         android:id="@+id/textViewEmpty"

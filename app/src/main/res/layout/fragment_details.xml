@@ -11,16 +11,40 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/imageViewCover"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:contentDescription="@string/image"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/image" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewCover"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_marginStart="95dp"
+                android:contentDescription="@string/image"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/buttonFavorite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/add_to_favorites"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_star_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imageViewCover"
+                app:tint="?attr/colorPrimary"
+                tools:ignore="TouchTargetSizeCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textTitle"
@@ -31,7 +55,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageViewCover" />
+            app:layout_constraintTop_toBottomOf="@id/imageContainer" />
 
         <TextView
             android:id="@+id/textAuthors"

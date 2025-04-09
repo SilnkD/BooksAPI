@@ -1,4 +1,4 @@
-package com.example.apisexample.data.network;
+package com.example.apisexample.data.remote;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;

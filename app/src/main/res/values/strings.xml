@@ -8,4 +8,6 @@
     <string name="image">Image</string>
     <string name="preview">Preview</string>
     <string name="more_info">More Info</string>
+    <string name="add_to_favorites">Add to favourites</string>
+    <string name="search_items">Search</string>
 </resources>

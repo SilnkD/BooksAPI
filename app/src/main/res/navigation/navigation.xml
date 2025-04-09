@@ -7,16 +7,28 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.apisexample.ui.fragment.ListFragment"
+        android:name="com.example.apisexample.ui.booklist.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.apisexample.ui.fragment.DetailsFragment"
+        android:name="com.example.apisexample.ui.bookdetails.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" />
+    <fragment
+    android:id="@+id/favoriteFragment"
+    android:name="com.example.apisexample.ui.favorites.FavoriteFragment"
+    android:label="fragment_details"
+    tools:layout="@layout/fragment_details" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
 </navigation>

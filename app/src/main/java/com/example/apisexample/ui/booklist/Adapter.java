@@ -1,4 +1,4 @@
-package com.example.apisexample.ui.adapter;
+package com.example.apisexample.ui.booklist;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import com.bumptech.glide.Glide;
-import com.example.apisexample.data.model.Item;
+import com.example.apisexample.model.Item;
 import com.example.apisexample.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder> implements Filterable {
 
-    private List<Item> items;
-    private List<Item> filteredItems;
+    private final List<Item> items = new ArrayList<>();
+    private final List<Item> filteredItems = new ArrayList<>();
     private final OnItemClickListener itemClickListener;
 
     public interface OnItemClickListener {
@@ -29,16 +27,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder> implem
     }
 
     public Adapter(List<Item> items, OnItemClickListener listener) {
-        this.items = new ArrayList<>(items);
-        this.filteredItems = new ArrayList<>(items);
+        this.items.addAll(items);
+        this.filteredItems.addAll(items);
         this.itemClickListener = listener;
     }
 
     public void updateItems(List<Item> newItems) {
-        this.items.clear();
-        this.items.addAll(newItems);
-        this.filteredItems.clear();
-        this.filteredItems.addAll(newItems);
+        items.clear();
+        items.addAll(newItems);
+        filteredItems.clear();
+        filteredItems.addAll(newItems);
         notifyDataSetChanged();
     }
 
@@ -53,7 +51,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder> implem
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = filteredItems.get(position);
-
         holder.titleTextView.setText(item.getTitle());
         holder.contentTextView.setText(item.getContent());
 
@@ -98,8 +95,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder> implem
                 } else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (Item item : items) {
-                        if (item.getTitle().toLowerCase().contains(filterPattern) ||
-                                item.getContent().toLowerCase().contains(filterPattern)) {
+                        if ((item.getTitle() != null && item.getTitle().toLowerCase().contains(filterPattern)) ||
+                                (item.getContent() != null && item.getContent().toLowerCase().contains(filterPattern))) {
                             filteredList.add(item);
                         }
                     }

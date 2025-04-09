@@ -1,6 +1,6 @@
-package com.example.apisexample.data.network;
+package com.example.apisexample.data.remote;
 
-import com.example.apisexample.data.model.BookResponse;
+import com.example.apisexample.model.BookResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;

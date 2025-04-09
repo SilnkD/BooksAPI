@@ -20,11 +20,15 @@ retrofit = "2.11.0"
 rxandroid = "3.0.2"
 rxjava = "3.1.10"
 androidxNavigationSafeargsGradlePlugin = "2.9.0-alpha09"
+roomCommon = "2.6.1"
 
 [libraries]
 adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "lifecycleLivedata" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCommon" }
+androidx-room-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCommon" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCommon" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -44,6 +48,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 androidx-androidx-navigation-safeargs-gradle-plugin = { group = "androidx.navigation.safeargs", name = "androidx.navigation.safeargs.gradle.plugin", version.ref = "androidxNavigationSafeargsGradlePlugin" }
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
