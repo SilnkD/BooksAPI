@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.apisexample.R;
 import com.example.apisexample.data.model.Item;
+import com.example.apisexample.data.repository.BookRepository;
 import com.example.apisexample.viewmodel.BookViewModel;
 
 public class DetailsFragment extends Fragment {
@@ -25,7 +26,10 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
+        BookRepository repository = new BookRepository();
+        // Используем кастомную фабрику для создания BookViewModel
+        BookViewModel.Factory factory = new BookViewModel.Factory(repository);
+        viewModel = new ViewModelProvider(requireActivity(), factory).get(BookViewModel.class);
     }
 
     @Override
@@ -53,7 +57,6 @@ public class DetailsFragment extends Fragment {
     @SuppressLint("DefaultLocale")
     private void updateUI(Item book) {
         textTitle.setText(book.getTitle());
-
         String authors = String.join(", ", book.getContent());
         textAuthors.setText(authors);
 
@@ -63,7 +66,6 @@ public class DetailsFragment extends Fragment {
         textCategories.setText(String.format("Categories: %s", String.join(", ", book.getCategories())));
         textISBN.setText(String.format("ISBN: %s", book.getIsbn()));
         textPageCount.setText(String.format("Page Count: %d", book.getPageCount()));
-
 
         Glide.with(this)
                 .load(book.getImage())

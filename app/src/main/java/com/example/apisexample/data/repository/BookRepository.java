@@ -39,13 +39,11 @@ public class BookRepository {
             item.setPublisher(volumeInfo.getPublisher());
             item.setPublishedDate(volumeInfo.getPublishedDate());
             item.setPageCount(volumeInfo.getPageCount());
-
             item.setDescription(volumeInfo.getDescription() != null ? volumeInfo.getDescription() : "No description available");
-
             item.setCategories(volumeInfo.getCategories());
 
             if (volumeInfo.getIndustryIdentifiers() != null && !volumeInfo.getIndustryIdentifiers().isEmpty()) {
-                item.setIsbn(volumeInfo.getIndustryIdentifiers().get(0).getIdentifier());  // Если есть хотя бы один ISBN
+                item.setIsbn(volumeInfo.getIndustryIdentifiers().get(0).getIdentifier());
             }
 
             if (volumeInfo.getImageLinks() != null && volumeInfo.getImageLinks().getThumbnail() != null) {

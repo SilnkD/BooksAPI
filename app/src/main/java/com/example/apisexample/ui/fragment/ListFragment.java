@@ -1,7 +1,6 @@
 package com.example.apisexample.ui.fragment;
 
 import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.example.apisexample.R;
 import com.example.apisexample.ui.adapter.Adapter;
 import com.example.apisexample.data.model.Item;
 import com.example.apisexample.viewmodel.BookViewModel;
+import com.example.apisexample.data.repository.BookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,9 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);  // Используем активность для обмена данными
+        BookRepository repository = new BookRepository();
+        BookViewModel.Factory factory = new BookViewModel.Factory(repository);
+        viewModel = new ViewModelProvider(requireActivity(), factory).get(BookViewModel.class);
     }
 
     @Override
@@ -61,9 +63,7 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
 
     @Override
     public void onItemClick(Item book) {
-        // Передаем выбранную книгу в ViewModel
         viewModel.selectBook(book);
-
         Navigation.findNavController(requireView())
                 .navigate(R.id.action_listFragment_to_detailsFragment);
     }
