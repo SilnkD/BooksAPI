@@ -30,6 +30,7 @@ public class DetailsFragment extends Fragment {
 
     private boolean isFavorite = false;
     private Item currentBook;
+    private FavoriteEntity currentFavoriteEntity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,13 +59,12 @@ public class DetailsFragment extends Fragment {
 
         buttonFavorite.setOnClickListener(v -> {
             if (currentBook == null) return;
-            FavoriteEntity entity = convertToEntity(currentBook);
-            entity.setId(null);
-            if (isFavorite) {
-                favoriteViewModel.removeFromFavorites(entity);
+
+            if (isFavorite && currentFavoriteEntity != null) {
+                favoriteViewModel.removeFromFavorites(currentFavoriteEntity);
                 buttonFavorite.setImageResource(R.drawable.ic_star_outline);
             } else {
-                favoriteViewModel.addToFavorites(entity);
+                favoriteViewModel.addToFavorites(convertToEntity(currentBook));
                 buttonFavorite.setImageResource(R.drawable.ic_star_filled);
             }
             isFavorite = !isFavorite;
@@ -106,6 +106,7 @@ public class DetailsFragment extends Fragment {
     private void checkIfFavorite(String title) {
         favoriteViewModel.getFavoriteByTitle(title).observe(getViewLifecycleOwner(), result -> {
             isFavorite = result != null;
+            currentFavoriteEntity = result;
             buttonFavorite.setImageResource(isFavorite ? R.drawable.ic_star_filled : R.drawable.ic_star_outline);
         });
     }

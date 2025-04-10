@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
+    private Integer id;
     private String title;
     private String content;
     private String image;
@@ -14,6 +15,14 @@ public class Item {
     private String publisher;
     private String publishedDate;
     private int pageCount;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;
