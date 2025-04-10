@@ -17,7 +17,7 @@ public abstract class BookDatabase extends RoomDatabase {
             synchronized (BookDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    BookDatabase.class, "app_dbas")
+                                    BookDatabase.class, "database")
                             .fallbackToDestructiveMigration()
                             .build();
                 }

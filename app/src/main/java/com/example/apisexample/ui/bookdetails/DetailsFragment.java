@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.apisexample.R;
-import com.example.apisexample.data.repository.BookRepository;
 import com.example.apisexample.model.Item;
 import com.example.apisexample.data.local.FavoriteEntity;
 import com.example.apisexample.viewmodel.BookViewModel;
@@ -25,6 +24,7 @@ public class DetailsFragment extends Fragment {
     private TextView textTitle, textAuthors, textPublisher, textPublishedDate, textDescription, textCategories, textISBN, textPageCount;
     private ImageView imageViewCover;
     private ImageButton buttonFavorite;
+
     private BookViewModel bookViewModel;
     private FavoriteViewModel favoriteViewModel;
 
@@ -34,9 +34,11 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assert getActivity() != null;
-        BookViewModel.Factory factory = new BookViewModel.Factory(getActivity().getApplication());
-        bookViewModel = new ViewModelProvider(this, factory).get(BookViewModel.class); // Используем кастомную фабрику
+        bookViewModel = new ViewModelProvider(
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())
+        ).get(BookViewModel.class);
+
         favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
     }
 
@@ -44,6 +46,34 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
+        initViews(view);
+
+        bookViewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
+            if (book != null) {
+                currentBook = book;
+                checkIfFavorite(book.getTitle());
+                updateUI(book);
+            }
+        });
+
+        buttonFavorite.setOnClickListener(v -> {
+            if (currentBook == null) return;
+            FavoriteEntity entity = convertToEntity(currentBook);
+            entity.setId(null);
+            if (isFavorite) {
+                favoriteViewModel.removeFromFavorites(entity);
+                buttonFavorite.setImageResource(R.drawable.ic_star_outline);
+            } else {
+                favoriteViewModel.addToFavorites(entity);
+                buttonFavorite.setImageResource(R.drawable.ic_star_filled);
+            }
+            isFavorite = !isFavorite;
+        });
+
+        return view;
+    }
+
+    private void initViews(View view) {
         textTitle = view.findViewById(R.id.textTitle);
         textAuthors = view.findViewById(R.id.textAuthors);
         textPublisher = view.findViewById(R.id.textPublisher);
@@ -54,32 +84,6 @@ public class DetailsFragment extends Fragment {
         textPageCount = view.findViewById(R.id.textPageCount);
         imageViewCover = view.findViewById(R.id.imageViewCover);
         buttonFavorite = view.findViewById(R.id.buttonFavorite);
-
-        bookViewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
-            if (book != null) {
-                currentBook = book;
-                checkIfFavorite(currentBook.getTitle());
-                updateUI(book);
-            }
-        });
-
-        buttonFavorite.setOnClickListener(v -> {
-            if (currentBook != null) {
-                if (isFavorite) {
-                    FavoriteEntity entity = convertToEntity(currentBook);
-                    favoriteViewModel.removeFromFavorites(entity);
-                    buttonFavorite.setImageResource(R.drawable.ic_star_outline);
-                    isFavorite = false;
-                } else {
-                    FavoriteEntity entity = convertToEntity(currentBook);
-                    favoriteViewModel.addToFavorites(entity);
-                    buttonFavorite.setImageResource(R.drawable.ic_star_filled);
-                    isFavorite = true;
-                }
-            }
-        });
-
-        return view;
     }
 
     @SuppressLint("DefaultLocale")
@@ -107,7 +111,6 @@ public class DetailsFragment extends Fragment {
     }
 
     private FavoriteEntity convertToEntity(Item item) {
-        // Create a new FavoriteEntity with the item data, without setting the id manually
         return new FavoriteEntity(
                 item.getTitle(),
                 item.getContent(),

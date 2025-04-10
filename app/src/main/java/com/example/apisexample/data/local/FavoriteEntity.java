@@ -32,27 +32,16 @@ public class FavoriteEntity {
         this.pageCount = pageCount;
     }
 
-    /*public FavoriteEntity() {
-        this.title = "title";
-        this.content = "content";
-        this.image = "image";
-        this.description = "description";
-        this.categories = "categories";
-        this.isbn = "isbn";
-        this.publisher = "publisher";
-        this.publishedDate = "publishedDate";
-        this.pageCount = 0;
-    }*/
+    public Integer getId() { return id; }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    @NonNull
+    public void setId(Integer id) { this.id = id; }
+
     public String getTitle() { return title; }
+
     public void setTitle(String title) { this.title = title; }
 
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
-
     public String getImage() { return image; }
     public void setImage(String image) { this.image = image; }
 

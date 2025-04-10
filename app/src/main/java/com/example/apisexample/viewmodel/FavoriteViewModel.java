@@ -12,7 +12,8 @@ import com.example.apisexample.data.repository.FavoriteRepository;
 import java.util.List;
 
 public class FavoriteViewModel extends AndroidViewModel {
-    private FavoriteRepository repository;
+
+    private final FavoriteRepository repository;
 
     public FavoriteViewModel(@NonNull Application application) {
         super(application);
@@ -27,14 +28,15 @@ public class FavoriteViewModel extends AndroidViewModel {
         repository.removeFromFavorites(book);
     }
 
-    public LiveData<List<FavoriteEntity>> getFavorites(int id) {
+    public LiveData<List<FavoriteEntity>> getFavorites() {
         return repository.getFavorites();
     }
+
     public LiveData<FavoriteEntity> getFavoriteById(Integer id) {
         return repository.getFavoriteById(id);
     }
+
     public LiveData<FavoriteEntity> getFavoriteByTitle(String title) {
         return repository.getFavoriteByTitle(title);
     }
-
 }

@@ -29,8 +29,11 @@ public class ListFragment extends Fragment implements Adapter.OnItemClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BookViewModel.Factory factory = new BookViewModel.Factory(requireActivity().getApplication());
-        viewModel = new ViewModelProvider(this, factory).get(BookViewModel.class); // Изменено: используем фабрику
+        viewModel = new ViewModelProvider(
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())
+        ).get(BookViewModel.class);
+
     }
 
     @Override
